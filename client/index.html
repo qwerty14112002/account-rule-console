@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Account Rule Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <div class="frame">
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">▣</span>
+        <span class="brand-text">Account Rule Console</span>
+      </div>
+      <div id="org-indicator" class="org-indicator hidden">
+        <span class="dot dot-live"></span>
+        <span id="org-url-text">—</span>
+      </div>
+    </header>
+
+    <main id="view-logged-out" class="view">
+      <div class="login-panel">
+        <p class="eyebrow">org connection — not established</p>
+        <h1>Toggle Account validation rules without touching Setup.</h1>
+        <p class="sub">
+          Connects to your Salesforce org over OAuth 2.0, reads every Validation Rule
+          defined on the Account object via the Tooling API, and lets you flip
+          <span class="kw">active</span> on or off before pushing the change back.
+        </p>
+        <button id="btn-login" class="btn btn-primary btn-lg">
+          <span class="cloud-icon">☁</span>
+          Connect to Salesforce
+        </button>
+        <p class="fine-print">You'll be redirected to login.salesforce.com.</p>
+      </div>
+    </main>
+
+    <main id="view-logged-in" class="view hidden">
+
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <button id="btn-fetch" class="btn btn-secondary">
+            <span class="ic">↻</span> Get validation rules
+          </button>
+          <span id="rule-count" class="rule-count"></span>
+        </div>
+        <div class="toolbar-right">
+          <button id="btn-enable-all" class="btn btn-ghost btn-enable" disabled>Enable all</button>
+          <button id="btn-disable-all" class="btn btn-ghost btn-disable" disabled>Disable all</button>
+          <button id="btn-logout" class="btn btn-text">Disconnect</button>
+        </div>
+      </div>
+
+      <div id="empty-state" class="empty-state">
+        <p class="empty-glyph">⌁</p>
+        <p>No rules loaded yet.</p>
+        <p class="empty-sub">Click <strong>Get validation rules</strong> to pull the current state from your org.</p>
+      </div>
+
+      <section id="rule-table-wrap" class="rule-table-wrap hidden">
+        <div class="rule-table-head">
+          <span class="col-name">Object.Rule</span>
+          <span class="col-msg">Error message</span>
+          <span class="col-state">State</span>
+        </div>
+        <div id="rule-list" class="rule-list"></div>
+      </section>
+
+      <footer class="deploy-bar">
+        <div class="deploy-status">
+          <span id="pending-count" class="pending-count">0 pending changes</span>
+        </div>
+        <div class="deploy-actions">
+          <button id="btn-revert" class="btn btn-ghost" disabled>Revert pending</button>
+          <button id="btn-deploy" class="btn btn-deploy" disabled>Deploy changes</button>
+        </div>
+      </footer>
+
+    </main>
+
+    <div id="toast" class="toast hidden"></div>
+
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
