@@ -95,21 +95,4 @@ App's callback list in Salesforce.
 | POST | /api/validation-rules/:id/toggle | sets one rule active/inactive |
 | POST | /api/validation-rules/deploy | applies a batch of changes |
 
-## Notes
 
-- Access token stays server-side in the session, never sent to the browser.
-- Uses the Tooling API's direct PATCH on ValidationRule for toggling
-  `active`, rather than a full Metadata API deploy. Simpler for a single
-  boolean field; a full deploy is the alternative for packaged/versioned
-  metadata changes.
-- The Tooling API requires the full Metadata object on PATCH, not just the
-  field you're changing — sending only `{ active }` makes Salesforce think
-  every other field (like `errorConditionFormula`) was cleared, and it
-  rejects the request with `FIELD_INTEGRITY_EXCEPTION`. `setValidationRuleActive`
-  first GETs the rule's current Metadata, then PATCHes it back with only
-  `active` changed and everything else preserved.
-- PKCE: `code_verifier` is generated and stored in the session on login,
-  its SHA-256 hash (`code_challenge`) is sent in the authorize redirect, and
-  the verifier is sent again on token exchange so Salesforce can confirm the
-  hash matches. Standard OAuth 2.0 extension (RFC 7636), required by orgs
-  that mandate PKCE on External Client Apps.
