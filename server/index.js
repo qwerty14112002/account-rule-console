@@ -18,6 +18,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 app.set('trust proxy', 1);
 
 app.use(express.json());
+app.get('/', (req, res) => res.json({ status: 'ok' }));
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
